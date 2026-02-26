@@ -1,0 +1,13 @@
+(defun genlist (n)
+  (defun impl (x lst)
+    (if (> x n)
+        (reverse lst)
+        (impl (+ 1 x) (cons x lst))))
+  (impl 1 '()))
+
+(let ((sum 0))
+  (loop for x in (genlist 999)
+	do (if (or (equal 0 (mod x 3))
+		   (equal 0 (mod x 5)))
+	       (setf sum (+ sum x))))
+  (print sum))
