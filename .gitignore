@@ -1,4 +1,4 @@
-*/target
-*/.idea
+leetcode/*/target
+leetcode/*/.idea
 a.out
 Cargo.lock
