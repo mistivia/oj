@@ -1,7 +1,7 @@
 nthPrime :: Integer -> Integer
 nthPrime targetCount = nextPrimeImpl 2 1 []
     where
-        nextPrimeImpl i primeCount primeList = 
+        nextPrimeImpl i primeCount primeList =
             if isPrime then
                 if primeCount == targetCount then
                     i
@@ -17,4 +17,4 @@ nthPrime targetCount = nextPrimeImpl 2 1 []
                         isPrimeImpl (x:xs) = i `mod` x /= 0 && isPrimeImpl xs
 
 main = do
-    putStrLn $ show $ nthPrime 10001
+    print (nthPrime 10001)

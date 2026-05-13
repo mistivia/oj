@@ -10,5 +10,5 @@ findMax13 numbers =
 main = do
     contents <- readFile "input"
     let max13 = findMax13 $ map digitToInt $ filter isDigit contents in
-        putStrLn $ show max13
+        print max13
     where isDigit x = x <= '9' && x >= '0'

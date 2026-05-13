@@ -7,5 +7,5 @@ theTripet = filter (\(a,b,c) -> a^2 + b^2 == c^2) triplets
 tripletProduct (a,b,c) = a * b * c
 
 main = do
-    putStrLn $ show $ tripletProduct $ head theTripet
+    print (tripletProduct $ head theTripet)
 
