@@ -1,1 +1,3 @@
+#!/bin/bash
+
 basher '运行`cat task.md` ; 完成task.md中的任务。'

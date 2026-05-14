@@ -3,6 +3,8 @@ import Text.Parsec.String (Parser, parseFromFile)
 import qualified Data.Map.Strict as Map
 import Control.Monad.ST
 import Data.STRef
+import Data.Vector (Vector)
+import qualified Data.Vector as V
 
 int :: Parser Int
 int = read <$> many1 digit
@@ -16,13 +18,13 @@ numTriangle = do
     eof
     pure triag
 
-numAt :: [[Int]] -> Int -> Int -> Int
-numAt triag row col = triag !! row !! col
+numAt :: Vector (Vector Int) -> Int -> Int -> Int
+numAt triag row col = triag V.! row V.! col
 
-maxSum :: [[Int]] -> Int
+maxSum :: Vector (Vector Int) -> Int
 maxSum triag = runST $ do
     mref <- newSTRef Map.empty
-    let n = length triag
+    let n = V.length triag
     let go r c = do
             m <- readSTRef mref
             case Map.lookup (r, c) m of
@@ -39,9 +41,11 @@ maxSum triag = runST $ do
                     pure res
     go 0 0
 
+listToVec :: [[Int]] -> Vector (Vector Int)
+listToVec = V.fromList . map V.fromList
+
 main = do
     result <- parseFromFile numTriangle "input"
     case result of
         Left err -> print err
-        Right triag -> print $ maxSum triag
-
+        Right triag -> print $ maxSum $ listToVec triag
