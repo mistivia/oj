@@ -2,6 +2,23 @@
 
 global find_outlier
 
+%macro beginfn 1-*
+    push rbp
+    mov  rbp, rsp
+%rep %0
+    push %1
+    %rotate 1
+%endrep
+%endmacro
+
+%macro endfn 1-*
+%rep %0
+    %rotate -1
+    pop %1
+%endrep
+    pop  rbp
+%endmacro
+
 section .text
 
 ; <----- int find_outlier(const int *v, unsigned len) ----->
@@ -19,12 +36,7 @@ find_outlier:
 
 normal_bit:
     %define v [rbp + 16]
-    push rbp
-    mov rbp, rsp
-    push rsi
-    push rcx
-    push rdx
-    push rbx
+    beginfn rsi, rcx, rdx, rbx
 
     mov rsi, v
     mov rcx, 0
@@ -57,24 +69,13 @@ normal_bit:
     cmp rdx, 1
     setle al
 
-    pop rbx
-    pop rdx
-    pop rcx
-    pop rsi
-    pop rbp
+    endfn rsi, rcx, rdx, rbx
     ret 8
 
 impl:
     %define v [rbp + 16]
     %define len [rbp + 24]
-
-    push rbp
-    mov rbp, rsp
-    push rdi
-    push rsi
-    push rcx
-    push r8
-    push r9
+    beginfn rdi, rsi, rcx, r8, r9
 
     mov rax, v
     push rax
@@ -95,10 +96,5 @@ impl:
     inc rcx
     jmp .loop
 .endloop:
-    pop r9
-    pop r8
-    pop rcx
-    pop rsi
-    pop rdi
-    pop rbp
+    endfn rdi, rsi, rcx, r8, r9
     ret 16
